@@ -130,7 +130,7 @@ EXAMPLES = r"""
 - name: vm-metadata-driven automation
   hosts: localhost
   sources:
-    - valerii.metadata.gce_imds:
+    - derad6709.metadata-watcher.gce_imds:
         mode: auto
         watch:
           - key: ansible-playbook

@@ -1,10 +1,10 @@
 ---
-namespace: valerii
+namespace: derad6709
 name: metadata-watcher
 version: 0.1.0
 readme: README.md
 authors:
-  - Valerii Lebedev
+  - Derad6709
 description: >
   Event-Driven Ansible source plugin: triggers playbooks on VM instance
   metadata changes via the GCE-compatible IMDS (Yandex.Cloud, GCP, anything

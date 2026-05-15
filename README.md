@@ -11,9 +11,9 @@ Event-Driven Ansible source-плагин: запускает плейбуки п
 ## Установка
 
 ```bash
-ansible-galaxy collection install valerii.metadata
+ansible-galaxy collection install derad6709.metadata-watcher
 # или прямо из тарбола после `ansible-galaxy collection build`:
-ansible-galaxy collection install valerii-metadata-0.1.0.tar.gz
+ansible-galaxy collection install derad6709-metadata-watcher-0.1.0.tar.gz
 ```
 
 Зависимости плагина (`aiohttp`, `pyyaml`) уже стоят как транзитивные у `ansible-rulebook`.
@@ -44,7 +44,7 @@ GCP — то же самое через `gcloud compute instances add-metadata`.
 - name: vm-metadata-driven automation
   hosts: localhost
   sources:
-    - valerii.metadata.gce_imds:
+    - derad6709.metadata-watcher.gce_imds:
         mode: auto
         watch:
           - key: ansible-playbook

@@ -5,7 +5,7 @@
 - name: vm-metadata-driven automation
   hosts: localhost
   sources:
-    - valerii.metadata.gce_imds:
+    - derad6709.metadata-watcher.gce_imds:
         mode: auto                  # wait_for_change где можно, иначе poll
         poll_interval: 30
         timeout_sec: 300
