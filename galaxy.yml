@@ -1,0 +1,28 @@
+---
+namespace: valerii
+name: metadata-watcher
+version: 0.1.0
+readme: README.md
+authors:
+  - Valerii Lebedev
+description: >
+  Event-Driven Ansible source plugin: triggers playbooks on VM instance
+  metadata changes via the GCE-compatible IMDS (Yandex.Cloud, GCP, anything
+  with a compatible 169.254.169.254 endpoint). Uses wait_for_change long-poll
+  where supported, falls back to interval polling otherwise.
+license:
+  - MIT
+tags:
+  - eda
+  - event_source
+  - metadata
+  - gcp
+  - yandex_cloud
+dependencies:
+  ansible.eda: ">=2.0.0"
+build_ignore:
+  - .venv
+  - .pytest_cache
+  - "**/__pycache__"
+  - "*.pyc"
+  - tests/.pytest_cache

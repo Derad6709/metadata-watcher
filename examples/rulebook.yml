@@ -1,0 +1,45 @@
+---
+# Минимальный пример: ВМ объявляет в своей метадате ключ `ansible-playbook`
+# со значением — полным YAML-плейбуком. При его изменении плагин кэширует
+# YAML в файл и эмитит event с playbook_path; рулбук запускает его.
+- name: vm-metadata-driven automation
+  hosts: localhost
+  sources:
+    - valerii.metadata.gce_imds:
+        mode: auto                  # wait_for_change где можно, иначе poll
+        poll_interval: 30
+        timeout_sec: 300
+        state_file: /var/lib/ansible-rulebook/imds-state.json
+        playbook_cache_dir: /var/lib/ansible-rulebook/playbooks
+        initial: diff_with_state    # сравнение ETag со state-файлом при старте
+        watch:
+          - key: ansible-playbook   # YAML плейбука прямо в значении
+            kind: inline
+            triggers: true
+          - key: ansible-extra-vars
+            kind: extra_vars        # YAML/JSON дикт → event.extra_vars
+          - key: ansible-playbook-url
+            kind: ref               # URL → event.playbook_url (доп. сценарий)
+            triggers: true
+
+  rules:
+    - name: run inline playbook from metadata
+      condition: event.trigger == true and event.playbook_path is defined
+      throttle:                     # Queue-семантика: серилизуем на инстанс
+        group_by_attributes:
+          - event.meta.instance_id
+        within: 1 minute
+      action:
+        run_playbook:
+          name: "{{ event.playbook_path }}"
+          extra_vars:
+            metadata_change:
+              key: "{{ event.key }}"
+              etag: "{{ event.etag }}"
+              hostname: "{{ event.meta.hostname }}"
+
+    - name: log non-triggering changes
+      condition: event.trigger == false
+      action:
+        debug:
+          msg: "metadata key {{ event.key }} changed (kind={{ event.kind }})"

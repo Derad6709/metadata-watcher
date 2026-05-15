@@ -1,0 +1,35 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.pyc
+
+# Ansible
+*.retry
+
+# Vault / secrets
+vault.yml
+vault.yaml
+group_vars/*/vault.yml
+host_vars/*/vault.yml
+
+# Molecule
+.molecule/
+
+# Vagrant
+.vagrant/
+
+# Logs
+*.log
+
+# Terraform (if used with infra roles)
+.terraform/
+terraform.tfstate*
