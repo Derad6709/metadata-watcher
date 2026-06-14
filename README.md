@@ -135,8 +135,8 @@ ansible-rulebook --rulebook rulebook.yml -i localhost,
 ## Разработка
 
 ```bash
-git clone <repo>
-cd metadata-eda
+git clone https://github.com/Derad6709/metadata-watcher
+cd metadata-watcher
 pip install aiohttp pyyaml pytest pytest-asyncio
 pytest tests/ -v
 ```
