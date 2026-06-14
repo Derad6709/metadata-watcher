@@ -11,7 +11,7 @@ Event-Driven Ansible source-плагин: запускает плейбуки п
 ## Установка
 
 ```bash
-ansible-galaxy collection install derad6709.metadata-watcher
+ansible-galaxy collection install git+https://github.com/Derad6709/metadata-watcher.git,main
 # или прямо из тарбола после `ansible-galaxy collection build`:
 ansible-galaxy collection install derad6709-metadata-watcher-0.1.0.tar.gz
 ```
@@ -20,7 +20,7 @@ ansible-galaxy collection install derad6709-metadata-watcher-0.1.0.tar.gz
 
 ## Использование
 
-### 1. Объяви плейбук в метадате ВМ
+### 1. Объявления playbook'а в метадате VM
 
 ```bash
 cat > /tmp/play.yml <<EOF
@@ -38,7 +38,7 @@ yc compute instance add-metadata my-vm \
 
 GCP — то же самое через `gcloud compute instances add-metadata`.
 
-### 2. Заведи рулбук
+### 2. Создание rulebook
 
 ```yaml
 - name: vm-metadata-driven automation
@@ -64,7 +64,7 @@ GCP — то же самое через `gcloud compute instances add-metadata`.
           extra_vars: "{{ event.extra_vars | default({}) }}"
 ```
 
-### 3. Запусти
+### 3. Запуск
 
 ```bash
 ansible-rulebook --rulebook rulebook.yml -i localhost,
@@ -121,10 +121,6 @@ ansible-rulebook --rulebook rulebook.yml -i localhost,
 `initial: diff_with_state` (по умолчанию): при старте плагин читает текущее состояние IMDS, сравнивает ETag со state-файлом и эмитит event только если значения отличаются от того, что было записано на диск перед прошлой остановкой. Это даёт «exactly-once-on-change» семантику между рестартами.
 
 `initial: ignore` — реагировать только на изменения после старта (новые ETag). `initial: always` — всегда эмитить текущее состояние при старте (для отладки или принудительного reapply).
-
-## Конкуррентность
-
-Плагин сам ничего не сериализует — он просто кладёт events в очередь `ansible-rulebook`. Queue-семантика реализуется на уровне правила через нативный `throttle:`. В примере выше события сгруппированы по `instance_id`, в пределах окна 1 минута выполнится только один плейбук — следующий встанет в очередь движка.
 
 ## Ограничения
 
