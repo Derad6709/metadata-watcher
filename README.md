@@ -2,7 +2,7 @@
 
 Event-Driven Ansible source-плагин: запускает плейбуки при изменении пользовательской метадаты ВМ через GCE-совместимый IMDS.
 
-Работает там, где у провайдера есть `wait_for_change`-long-poll (Yandex.Cloud, GCP), и автоматически деградирует до интервального опроса там, где нет (любой кастомный IMDS, on-prem с `gce-metadata-server`, и т.п.).
+Работает там, где у провайдера есть `wait_for_change`-long-poll (Yandex.Cloud, GCP), и автоматически деградирует до интервального поллинга там, где нет (любой кастомный IMDS, on-prem с `gce-metadata-server`, и т.п.).
 
 ## Идея
 
